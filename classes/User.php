@@ -2,19 +2,19 @@
 
 use db\Connect;
 
-class Post extends Connect
+class User extends Connect
 {
-    protected static $tabel = "post";
-    public static $db_fileds = array('title','body','picture','total','number');
+    protected static $tabel = "users";
+    public static $db_fileds = array('username','user_image','password','email');
     public $id;
-    public $title ;
-    public $body;
-    public $picture;
-    public $tmp_name;
-    public $total;
-    public $number;
-    // Photo Methods ..
-    public $error = array();
+    public $username;
+    public $user_image;
+    public $password;
+    public $email;
+
+    // Image ..
+        public $directory = 'image';
+        public $error = array();
     public    $phpFileUploadErrors = array(
         UPLOAD_ERR_OK => 'There is no error, the file uploaded with success.',
         UPLOAD_ERR_INI_SIZE => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
@@ -27,34 +27,30 @@ class Post extends Connect
     );
 
     public function set_file($file){
-        if(!$file || empty($file)){
-            $this->error[] = "There are no file uploaded !";
-            return false;
+        if(empty($file) || !$file){
+            $this->error[] = "File Not Upladed !";
         }elseif ($file['error'] != 0){
             $this->error[] = $this->phpFileUploadErrors[$file['error']];
-            return false;
         }else{
-            $this->picture = $file['name'];
+            $this->user_image = $file['name'];
             $this->tmp_name = $file['tmp_name'];
         }
     }
 
     public function placeHolder(){
-        if ($this->picture){
-            echo 'images/'. $this->picture;
+        if ($this->user_image){
+            echo 'images/'. $this->user_image;
         }else{
-            echo 'http://placehold.it/400x400';
+            echo 'http://placehold.it/200x200';
         }
     }
 
     // Save Photo ..
     public function save_Photo(){
 
-       return move_uploaded_file($this->tmp_name, 'C:\xampp\htdocs\learn\images' . DIRECTORY_SEPARATOR . $this->picture);
+        return move_uploaded_file($this->tmp_name, 'C:\xampp\htdocs\learn\images' . DIRECTORY_SEPARATOR . $this->user_image);
         unset($this->tmp_name);
     }
-
-
 
 
 }

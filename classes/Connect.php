@@ -31,7 +31,7 @@ class Connect
     }
 
     public static function all(){
-        return static::showData("SELECT * FROM " . static::$tabel . " ");
+        return static::showData("SELECT * FROM " . static::$tabel . " ORDER BY id DESC");
     }
 
     public static function showData($sql){
@@ -88,6 +88,7 @@ class Connect
     }
 
     public function updated() {
+
         $properites = $this->properites();
         $properites_berent = array();
         foreach ($properites as $key =>$value){
@@ -102,6 +103,7 @@ class Connect
 
     public function delete(){
         $sql = "DELETE FROM " . static::$tabel . " WHERE id = '$this->id'";
+
         return static::query($sql);
     }
 
